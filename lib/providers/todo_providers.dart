@@ -1,5 +1,5 @@
-import 'package:flutter_application/services/todo_services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_application/services/todo_services.dart';
 
 final todoServiceProvider = Provider((ref) => TodoService());
 
@@ -24,7 +24,7 @@ class TodoAddNotifier extends StateNotifier<AsyncValue<void>> {
       await _ref.read(todoServiceProvider).addTodo(todo);
       state = const AsyncValue.data(null);
     } catch (e) {
-      print('---------PROVIDERS-------${e.toString()}');
+      print('---------PROVIDERS ADD-------${e.toString()}');
     }
   }
 
@@ -38,14 +38,16 @@ class TodoAddNotifier extends StateNotifier<AsyncValue<void>> {
     }
   }
 
-
-  Future<void> editTodo(String id, String title, String description) async {
+  Future<void> editTodo(String id, String title, String description,
+      {bool isDone = false}) async {
     state = const AsyncValue.loading();
     try {
-      await _ref.read(todoServiceProvider).editTodo(id, title, description);
+      await _ref
+          .read(todoServiceProvider)
+          .editTodo(id, title, description, isDone);
       state = const AsyncValue.data(null);
     } catch (e) {
-      print('---------PROVIDERS-------${e.toString()}');
+      print('---------PROVIDERS EDIT-------${e.toString()}');
     }
   }
 }
